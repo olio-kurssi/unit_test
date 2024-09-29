@@ -88,6 +88,7 @@ QTEST_MAIN(TestMyMath)
 
 </pre>
 </li>
+<li>Poista main.cpp (tai kommentoi sen main funktio)</li>
 <li>Suorita projekti</li>
-<li>Kokeile muokata calcSum-funktiota, niin että se palauttaa virheellisen summan ja suorita projekti</li>
+<li>Kokeile muokata calcSum-funktiota, niin että se palauttaa virheellisen summan ja suorita projekti.</li>
 </ol>
