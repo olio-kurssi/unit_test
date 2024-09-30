@@ -28,8 +28,8 @@ SOURCES += \
 <li>Lisää projektin Source osioon tiedosto test_mymath.cpp ja siihen koodi:
 <pre>
 // test_mymath.cpp
-#include <QtTest/QtTest>
-#include <qcompare.h>
+#include &lt;QtTest/QtTest&gt;
+#include &lt;qcompare.h&gt;
 #include "../MyApplication/MyMath.h"
 
 class TestMyMath : public QObject
