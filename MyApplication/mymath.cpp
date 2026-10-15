@@ -7,5 +7,5 @@ MyMath::MyMath()
 
 int MyMath::calcSum(int a, int b)
 {
-    return a+b;
+    return a+b+1;
 }

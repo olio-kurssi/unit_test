@@ -3,38 +3,52 @@
 Tämä on esimerkki yksikkötestauksesta käyttäen <b>QTest</b>-frameworkkiä.
 
 ## Sovellusprojekti
-
-Varsinainen sovellus on nimeltään **MyApplication** ja siinä on luokka nimeltään **MyMath**, jossa funktio **calcSum**, joka palauttaa sille annetun kahden kokonaisluvun summan.
+Tee kansio unit_test ja sinne varsinainen sovellus nimeltään **MyApplication** ja siihen  luokka nimeltään **MyMath**, jossa funktio **calcSum**, joka palauttaa sille annetun kahden kokonaisluvun summan.
 
 ## Testiprojekti
 
-Testiprojekti on nimeltään **TestMyApplication** ja siinä oleva luokka **Test_MyMath** testaa että, toimiiko funktio **calcSum** oikein.
+Testiprojekti on nimeltään **TestMyApplication** ja sillä voi testata, että MyApplication projektin **calcSum** toimii oikein.
 
 ### Testiprojektin luonti
 
 <ol>
-<li>Luo Qt-konsolisovellus</li>
-<li>Lisää .pro tiedostoon rivi 
+<li>Luo C++ konsolisovellus nimeltään TestMyApplication kansioon unit_test</li>
+<li>Muokkaa CMakeLists.txt tiedosto seuraavan laiseksi:
 <pre>
-QT += testlib
+cmake_minimum_required(VERSION 3.16)
+
+project(TestMyApplication LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_AUTOMOC ON)
+
+find_package(Qt6 REQUIRED COMPONENTS Test)
+
+add_executable(main
+    main.cpp
+    ../MyApplication/MyMath.cpp
+)
+
+target_link_libraries(main PRIVATE Qt6::Test)
+
+include(GNUInstallDirs)
+install(TARGETS main
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
 </pre></li>
-<li>Muokkaa .pro-tiedoston SOURCES osio seuraavaksi
+<li>Muokkaa main.cpp seuraavanlaiseksi
 <pre>
-SOURCES += \
-    ../MyApplication/MyMath.cpp \
-    test_mymath.cpp
-</pre>
-</li>
-<li>Lisää projektin Source osioon tiedosto test_mymath.cpp ja siihen koodi:
-<pre>
-// test_mymath.cpp
 #include &lt;QtTest/QtTest&gt;
 #include &lt;qcompare.h&gt;
 #include "../MyApplication/MyMath.h"
-
 class TestMyMath : public QObject
 {
     Q_OBJECT
+
 
 private slots:
     void testPositiveNumbers();
@@ -44,12 +58,14 @@ private slots:
     void testLargeNumbers();
 };
 
+
 // Testitapaus positiivisille luvuille
 void TestMyMath::testPositiveNumbers()
 {
     MyMath myMath;
     QCOMPARE(myMath.calcSum(5, 7), 12);
 }
+
 
 // Testitapaus negatiivisille luvuille
 void TestMyMath::testNegativeNumbers()
@@ -58,12 +74,14 @@ void TestMyMath::testNegativeNumbers()
     QCOMPARE(myMath.calcSum(-5, -7), -12);
 }
 
+
 // Testitapaus positiiviselle ja negatiiviselle luvulle
 void TestMyMath::testMixedNumbers()
 {
     MyMath myMath;
     QCOMPARE(myMath.calcSum(5, -7), -2);
 }
+
 
 // Testitapaukset nollalle
 void TestMyMath::testWithZero()
@@ -74,6 +92,7 @@ void TestMyMath::testWithZero()
     QCOMPARE(myMath.calcSum(7, 0), 7);
 }
 
+
 // Testitapaus suurille luvuille
 void TestMyMath::testLargeNumbers()
 {
@@ -81,14 +100,16 @@ void TestMyMath::testLargeNumbers()
     QCOMPARE(myMath.calcSum(1000000, 2000000), 3000000);
 }
 
+
 // Suoritetaan testit
 QTEST_MAIN(TestMyMath)
 
-#include "test_mymath.moc"
 
+#include "main.moc"
 </pre>
 </li>
-<li>Poista main.cpp (tai kommentoi sen main funktio)</li>
+
+</li>
 <li>Suorita projekti</li>
 <li>Kokeile muokata calcSum-funktiota, niin että se palauttaa virheellisen summan ja suorita projekti.</li>
 </ol>
